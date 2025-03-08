@@ -98,7 +98,7 @@ const staffMembers = [
 ];
 
 export default function StaffPage() {
-  const [selectedStaff, setSelectedStaff] = useState(null);
+  const [selectedStaff, setSelectedStaff] = useState<any>(null);
 
   // Determine which color to show for the staff member’s status
   const getStatusColor = (status: string) => {
@@ -117,7 +117,7 @@ export default function StaffPage() {
   // Helper to render a grid of staff cards
   const renderStaffGrid = (filteredStaff: typeof staffMembers) => {
     return (
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
         {filteredStaff.map((staff) => (
           <AnimatedCard
             key={staff.id}
@@ -142,7 +142,9 @@ export default function StaffPage() {
                   </div>
                 </div>
                 <div
-                  className={`w-3 h-3 rounded-full ${getStatusColor(staff.status)}`}
+                  className={`w-3 h-3 rounded-full ${getStatusColor(
+                    staff.status
+                  )}`}
                 />
               </div>
             </CardHeader>
@@ -169,8 +171,9 @@ export default function StaffPage() {
   };
 
   return (
-    <div className="p-4 md:p-8">
-      <div className="flex items-center justify-between mb-8">
+    <div className="px-4 py-4 sm:px-6 md:px-8 md:py-8">
+      {/* Header */}
+      <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <h1 className="text-3xl font-bold">
           <Sparkles>Staff Management</Sparkles>
         </h1>
@@ -231,56 +234,53 @@ export default function StaffPage() {
       </div>
 
       {/* Tabs for department-based filtering */}
-      <Tabs defaultValue="all" className="mb-6">
-        <TabsList>
-          <TabsTrigger value="all">All Staff</TabsTrigger>
-          <TabsTrigger value="management">Management</TabsTrigger>
-          <TabsTrigger value="design">Design</TabsTrigger>
-          <TabsTrigger value="development">Development</TabsTrigger>
-          <TabsTrigger value="qa">Quality Assurance</TabsTrigger>
-        </TabsList>
+      {/* Add horizontal scroll for small screens */}
+      <div className="w-full overflow-x-auto">
+        <Tabs defaultValue="all" className="min-w-[500px]">
+          <TabsList className="mb-6">
+            <TabsTrigger value="all">All Staff</TabsTrigger>
+            <TabsTrigger value="management">Management</TabsTrigger>
+            <TabsTrigger value="design">Design</TabsTrigger>
+            <TabsTrigger value="development">Development</TabsTrigger>
+            <TabsTrigger value="qa">Quality Assurance</TabsTrigger>
+          </TabsList>
 
-        {/* All Staff */}
-        <TabsContent value="all" className="mt-6">
-          {renderStaffGrid(staffMembers)}
-        </TabsContent>
+          {/* All Staff */}
+          <TabsContent value="all" className="mt-6">
+            {renderStaffGrid(staffMembers)}
+          </TabsContent>
 
-        {/* Management */}
-        <TabsContent value="management" className="mt-6">
-          {renderStaffGrid(
-            staffMembers.filter(
-              (staff) => staff.department === "Management"
-            )
-          )}
-        </TabsContent>
+          {/* Management */}
+          <TabsContent value="management" className="mt-6">
+            {renderStaffGrid(
+              staffMembers.filter((staff) => staff.department === "Management")
+            )}
+          </TabsContent>
 
-        {/* Design */}
-        <TabsContent value="design" className="mt-6">
-          {renderStaffGrid(
-            staffMembers.filter(
-              (staff) => staff.department === "Design"
-            )
-          )}
-        </TabsContent>
+          {/* Design */}
+          <TabsContent value="design" className="mt-6">
+            {renderStaffGrid(
+              staffMembers.filter((staff) => staff.department === "Design")
+            )}
+          </TabsContent>
 
-        {/* Development */}
-        <TabsContent value="development" className="mt-6">
-          {renderStaffGrid(
-            staffMembers.filter(
-              (staff) => staff.department === "Development"
-            )
-          )}
-        </TabsContent>
+          {/* Development */}
+          <TabsContent value="development" className="mt-6">
+            {renderStaffGrid(
+              staffMembers.filter((staff) => staff.department === "Development")
+            )}
+          </TabsContent>
 
-        {/* Quality Assurance */}
-        <TabsContent value="qa" className="mt-6">
-          {renderStaffGrid(
-            staffMembers.filter(
-              (staff) => staff.department === "Quality Assurance"
-            )
-          )}
-        </TabsContent>
-      </Tabs>
+          {/* Quality Assurance */}
+          <TabsContent value="qa" className="mt-6">
+            {renderStaffGrid(
+              staffMembers.filter(
+                (staff) => staff.department === "Quality Assurance"
+              )
+            )}
+          </TabsContent>
+        </Tabs>
+      </div>
     </div>
   );
 }
