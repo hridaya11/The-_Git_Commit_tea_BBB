@@ -1,11 +1,22 @@
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Overview } from "@/components/dashboard/overview"
-import { RecentSales } from "@/components/dashboard/recent-sales"
-import { Button } from "@/components/ui/button"
-import { CalendarDateRangePicker } from "@/components/dashboard/date-range-picker"
-import { AnimatedCounter } from "@/components/ui/animated-counter"
-import { Sparkles } from "@/components/ui/sparkles"
+"use client";
+
+import React from "react";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Overview } from "@/components/dashboard/overview";
+import { RecentSales } from "@/components/dashboard/recent-sales";
+import { Button } from "@/components/ui/button";
+import { CalendarDateRangePicker } from "@/components/dashboard/date-range-picker";
+import { AnimatedCounter } from "@/components/ui/animated-counter";
+import { Sparkles } from "@/components/ui/sparkles";
+import { MonthlyRevenueChart } from "@/components/dashboard/MonthlyRevenueChart"; 
+// ^ Adjust the import path if needed
 
 export default function DashboardPage() {
   return (
@@ -20,14 +31,17 @@ export default function DashboardPage() {
         </div>
       </div>
       <Tabs defaultValue="overview" className="space-y-4">
+        {/* ---- Tab Navigation ---- */}
         <TabsList>
           <TabsTrigger value="overview">Overview</TabsTrigger>
           <TabsTrigger value="analytics">Analytics</TabsTrigger>
-          <TabsTrigger value="reports">Reports</TabsTrigger>
-          <TabsTrigger value="notifications">Notifications</TabsTrigger>
+
         </TabsList>
+
+        {/* ---- OVERVIEW TAB ---- */}
         <TabsContent value="overview" className="space-y-4">
           <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+            {/* Stats Cards */}
             <Card>
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                 <CardTitle className="text-sm font-medium">Total Revenue</CardTitle>
@@ -53,6 +67,7 @@ export default function DashboardPage() {
                 </p>
               </CardContent>
             </Card>
+
             <Card>
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                 <CardTitle className="text-sm font-medium">Subscriptions</CardTitle>
@@ -80,6 +95,7 @@ export default function DashboardPage() {
                 </p>
               </CardContent>
             </Card>
+
             <Card>
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                 <CardTitle className="text-sm font-medium">Active Projects</CardTitle>
@@ -106,6 +122,7 @@ export default function DashboardPage() {
                 </p>
               </CardContent>
             </Card>
+
             <Card>
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                 <CardTitle className="text-sm font-medium">Pending Tasks</CardTitle>
@@ -132,6 +149,8 @@ export default function DashboardPage() {
               </CardContent>
             </Card>
           </div>
+
+          {/* Overview & Recent Sales */}
           <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-7">
             <Card className="col-span-4">
               <CardHeader>
@@ -152,8 +171,30 @@ export default function DashboardPage() {
             </Card>
           </div>
         </TabsContent>
+
+        {/* ---- ANALYTICS TAB ---- */}
+        <TabsContent value="analytics" className="space-y-4">
+          <Card>
+            <CardHeader>
+              <CardTitle>Monthly Revenue</CardTitle>
+            </CardHeader>
+            <CardContent className="h-72">
+              {/* MonthlyRevenueChart is now here, under Analytics */}
+              <MonthlyRevenueChart />
+            </CardContent>
+          </Card>
+        </TabsContent>
+
+        {/* ---- REPORTS TAB ---- */}
+        <TabsContent value="reports" className="space-y-4">
+          {/* Your Reports content goes here */}
+        </TabsContent>
+
+        {/* ---- NOTIFICATIONS TAB ---- */}
+        <TabsContent value="notifications" className="space-y-4">
+          {/* Your Notifications content goes here */}
+        </TabsContent>
       </Tabs>
     </div>
-  )
+  );
 }
-
