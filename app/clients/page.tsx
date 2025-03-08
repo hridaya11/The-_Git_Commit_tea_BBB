@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import { useState } from "react"
 import { CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
@@ -70,9 +70,9 @@ const clients = [
 ]
 
 export default function ClientsPage() {
-  const [expandedClient, setExpandedClient] = useState(null)
+  const [expandedClient, setExpandedClient] = useState<number | null>(null)
 
-  const toggleExpand = (clientId) => {
+  const toggleExpand = (clientId: number) => {
     if (expandedClient === clientId) {
       setExpandedClient(null)
     } else {
