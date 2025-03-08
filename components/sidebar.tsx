@@ -49,22 +49,9 @@ const sidebarItems = [
     title: "Calendar",
     icon: Calendar,
     href: "/calendar",
-  },
-  {
-    title: "Messages",
-    icon: MessageSquare,
-    href: "/messages",
-  },
-  {
-    title: "Analytics",
-    icon: BarChart2,
-    href: "/analytics",
-  },
-  {
-    title: "Settings",
-    icon: Settings,
-    href: "/settings",
-  },
+  }
+  
+  
 ]
 
 export default function Sidebar() {
@@ -80,8 +67,8 @@ export default function Sidebar() {
     >
       <div className="flex h-16 items-center justify-between border-b px-4">
         <div className={cn("flex items-center", collapsed && "justify-center w-full")}>
-          {!collapsed && <span className="text-xl font-bold">SaaSFlow</span>}
-          {collapsed && <span className="text-xl font-bold">SF</span>}
+          {!collapsed && <span className="text-xl font-bold">TaskFlow</span>}
+          {collapsed && <span className="text-xl font-bold">TF</span>}
         </div>
         <Button variant="ghost" size="icon" onClick={() => setCollapsed(!collapsed)} className="h-8 w-8">
           {collapsed ? <ChevronRight className="h-4 w-4" /> : <ChevronLeft className="h-4 w-4" />}

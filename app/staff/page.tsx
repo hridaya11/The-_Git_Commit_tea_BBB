@@ -1,10 +1,16 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
+import { useState } from "react";
+import {
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 import {
   Dialog,
   DialogContent,
@@ -13,13 +19,19 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Sparkles } from "@/components/ui/sparkles"
-import { AnimatedCard } from "@/components/ui/animated-card"
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Sparkles } from "@/components/ui/sparkles";
+import { AnimatedCard } from "@/components/ui/animated-card";
 
 // Sample staff data
 const staffMembers = [
@@ -83,23 +95,78 @@ const staffMembers = [
     activeTasks: 6,
     status: "active",
   },
-]
+];
 
 export default function StaffPage() {
-  const [selectedStaff, setSelectedStaff] = useState(null)
+  const [selectedStaff, setSelectedStaff] = useState(null);
 
-  const getStatusColor = (status) => {
+  // Determine which color to show for the staff member’s status
+  const getStatusColor = (status: string) => {
     switch (status) {
       case "active":
-        return "bg-green-500"
+        return "bg-green-500";
       case "busy":
-        return "bg-red-500"
+        return "bg-red-500";
       case "away":
-        return "bg-yellow-500"
+        return "bg-yellow-500";
       default:
-        return "bg-gray-500"
+        return "bg-gray-500";
     }
-  }
+  };
+
+  // Helper to render a grid of staff cards
+  const renderStaffGrid = (filteredStaff: typeof staffMembers) => {
+    return (
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {filteredStaff.map((staff) => (
+          <AnimatedCard
+            key={staff.id}
+            className="cursor-pointer hover:shadow-lg transition-shadow"
+            onClick={() => setSelectedStaff(staff)}
+          >
+            <CardHeader className="pb-2">
+              <div className="flex justify-between">
+                <div className="flex items-center space-x-4">
+                  <Avatar>
+                    <AvatarImage src={staff.avatar} alt={staff.name} />
+                    <AvatarFallback>
+                      {staff.name
+                        .split(" ")
+                        .map((n) => n[0])
+                        .join("")}
+                    </AvatarFallback>
+                  </Avatar>
+                  <div>
+                    <CardTitle className="text-lg">{staff.name}</CardTitle>
+                    <CardDescription>{staff.role}</CardDescription>
+                  </div>
+                </div>
+                <div
+                  className={`w-3 h-3 rounded-full ${getStatusColor(staff.status)}`}
+                />
+              </div>
+            </CardHeader>
+            <CardContent>
+              <div className="text-sm text-muted-foreground mb-2">
+                {staff.email}
+              </div>
+              <div className="flex justify-between items-center">
+                <Badge variant="outline">{staff.department}</Badge>
+                <span className="text-sm font-medium">
+                  {staff.activeTasks} active tasks
+                </span>
+              </div>
+            </CardContent>
+            <CardFooter className="pt-1">
+              <Button variant="outline" size="sm" className="w-full">
+                View Profile
+              </Button>
+            </CardFooter>
+          </AnimatedCard>
+        ))}
+      </div>
+    );
+  };
 
   return (
     <div className="p-4 md:p-8">
@@ -114,7 +181,9 @@ export default function StaffPage() {
           <DialogContent className="sm:max-w-[425px]">
             <DialogHeader>
               <DialogTitle>Add New Staff Member</DialogTitle>
-              <DialogDescription>Enter the details of the new staff member here.</DialogDescription>
+              <DialogDescription>
+                Enter the details of the new staff member here.
+              </DialogDescription>
             </DialogHeader>
             <div className="grid gap-4 py-4">
               <div className="grid grid-cols-4 items-center gap-4">
@@ -144,10 +213,12 @@ export default function StaffPage() {
                     <SelectValue placeholder="Select department" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="management">Management</SelectItem>
-                    <SelectItem value="design">Design</SelectItem>
-                    <SelectItem value="development">Development</SelectItem>
-                    <SelectItem value="qa">Quality Assurance</SelectItem>
+                    <SelectItem value="Management">Management</SelectItem>
+                    <SelectItem value="Design">Design</SelectItem>
+                    <SelectItem value="Development">Development</SelectItem>
+                    <SelectItem value="Quality Assurance">
+                      Quality Assurance
+                    </SelectItem>
                   </SelectContent>
                 </Select>
               </div>
@@ -159,6 +230,7 @@ export default function StaffPage() {
         </Dialog>
       </div>
 
+      {/* Tabs for department-based filtering */}
       <Tabs defaultValue="all" className="mb-6">
         <TabsList>
           <TabsTrigger value="all">All Staff</TabsTrigger>
@@ -167,53 +239,48 @@ export default function StaffPage() {
           <TabsTrigger value="development">Development</TabsTrigger>
           <TabsTrigger value="qa">Quality Assurance</TabsTrigger>
         </TabsList>
+
+        {/* All Staff */}
         <TabsContent value="all" className="mt-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {staffMembers.map((staff) => (
-              <AnimatedCard
-                key={staff.id}
-                className="cursor-pointer hover:shadow-lg transition-shadow"
-                onClick={() => setSelectedStaff(staff)}
-              >
-                <CardHeader className="pb-2">
-                  <div className="flex justify-between">
-                    <div className="flex items-center space-x-4">
-                      <Avatar>
-                        <AvatarImage src={staff.avatar} alt={staff.name} />
-                        <AvatarFallback>
-                          {staff.name
-                            .split(" ")
-                            .map((n) => n[0])
-                            .join("")}
-                        </AvatarFallback>
-                      </Avatar>
-                      <div>
-                        <CardTitle className="text-lg">{staff.name}</CardTitle>
-                        <CardDescription>{staff.role}</CardDescription>
-                      </div>
-                    </div>
-                    <div className={`w-3 h-3 rounded-full ${getStatusColor(staff.status)}`} />
-                  </div>
-                </CardHeader>
-                <CardContent>
-                  <div className="text-sm text-muted-foreground mb-2">{staff.email}</div>
-                  <div className="flex justify-between items-center">
-                    <Badge variant="outline">{staff.department}</Badge>
-                    <span className="text-sm font-medium">{staff.activeTasks} active tasks</span>
-                  </div>
-                </CardContent>
-                <CardFooter className="pt-1">
-                  <Button variant="outline" size="sm" className="w-full">
-                    View Profile
-                  </Button>
-                </CardFooter>
-              </AnimatedCard>
-            ))}
-          </div>
+          {renderStaffGrid(staffMembers)}
         </TabsContent>
-        {/* Other tab contents would be similar but filtered by department */}
+
+        {/* Management */}
+        <TabsContent value="management" className="mt-6">
+          {renderStaffGrid(
+            staffMembers.filter(
+              (staff) => staff.department === "Management"
+            )
+          )}
+        </TabsContent>
+
+        {/* Design */}
+        <TabsContent value="design" className="mt-6">
+          {renderStaffGrid(
+            staffMembers.filter(
+              (staff) => staff.department === "Design"
+            )
+          )}
+        </TabsContent>
+
+        {/* Development */}
+        <TabsContent value="development" className="mt-6">
+          {renderStaffGrid(
+            staffMembers.filter(
+              (staff) => staff.department === "Development"
+            )
+          )}
+        </TabsContent>
+
+        {/* Quality Assurance */}
+        <TabsContent value="qa" className="mt-6">
+          {renderStaffGrid(
+            staffMembers.filter(
+              (staff) => staff.department === "Quality Assurance"
+            )
+          )}
+        </TabsContent>
       </Tabs>
     </div>
-  )
+  );
 }
-
